@@ -1,0 +1,19 @@
+{
+  "name": "斯特魯普專注挑戰 | Stroop Test PWA",
+  "short_name": "Stroop Test",
+  "description": "鍛鍊大腦前額葉抑制控制與認知切換能力之 Local-First 護眼專注力 PWA",
+  "start_url": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#FBF7EE",
+  "theme_color": "#D97706",
+  "categories": ["education", "health", "games"],
+  "icons": [
+    {
+      "src": "./icons/icon.svg",
+      "sizes": "192x192 512x512",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

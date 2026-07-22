@@ -1,0 +1,22 @@
+# Cloudflare Pages Custom Headers for Stroop Test PWA
+
+# Service Worker - 無快取，確保 PWA 隨時秒速自動更新
+/sw.js
+  Cache-Control: no-cache, no-store, must-revalidate
+  Content-Type: application/javascript; charset=utf-8
+
+# PWA Manifest
+/manifest.json
+  Cache-Control: public, max-age=0, must-revalidate
+  Content-Type: application/manifest+json; charset=utf-8
+
+# 靜態資源 Hash Assets (強快取 1 年)
+/assets/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# 全域資安與預設 HTTP Headers
+/*
+  X-Content-Type-Options: nosniff
+  X-Frame-Options: DENY
+  Referrer-Policy: strict-origin-when-cross-origin
+  X-XSS-Protection: 1; mode=block
