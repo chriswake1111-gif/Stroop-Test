@@ -1,15 +1,30 @@
 # Dependencies
 node_modules/
+.pnpm-store/
 
 # Production build output
 dist/
 dist-ssr/
 *.local
 
+# Environment variables & secrets (CRITICAL PRIVACY & SECURITY)
+.env
+.env.local
+.env.*.local
+*.pem
+*.key
+
+# Cloudflare Wrangler & Vite dev cache
+.wrangler/
+.vite/
+.eslintcache
+
 # Logs
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+pnpm-debug.log*
+*.log
 
 # Editor & OS files
 .vscode/
