@@ -12,6 +12,7 @@ export class GameTimer {
     this.questionStartTime = null;
     this.timerId = null;
     this.remainingSeconds = 30;
+    this.lastNotifiedSecond = null;
     this.isRunning = false;
   }
 
@@ -19,6 +20,7 @@ export class GameTimer {
     this.stop();
     this.durationSeconds = durationSeconds;
     this.remainingSeconds = durationSeconds;
+    this.lastNotifiedSecond = null;
     this.isRunning = true;
     this.startTime = performance.now();
     this.questionStartTime = performance.now();
@@ -33,7 +35,8 @@ export class GameTimer {
     const elapsedSeconds = Math.floor(elapsedMs / 1000);
     this.remainingSeconds = Math.max(0, this.durationSeconds - elapsedSeconds);
 
-    if (this.onTick) {
+    if (this.onTick && this.remainingSeconds !== this.lastNotifiedSecond) {
+      this.lastNotifiedSecond = this.remainingSeconds;
       this.onTick(this.remainingSeconds);
     }
 

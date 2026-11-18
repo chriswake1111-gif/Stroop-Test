@@ -3,6 +3,7 @@
   "short_name": "Stroop Test",
   "description": "鍛鍊大腦前額葉抑制控制與認知切換能力之 Local-First 護眼專注力 PWA",
   "start_url": "./",
+  "scope": "./",
   "display": "standalone",
   "orientation": "portrait",
   "background_color": "#FBF7EE",
@@ -10,10 +11,22 @@
   "categories": ["education", "health", "games"],
   "icons": [
     {
-      "src": "./icons/icon.svg",
-      "sizes": "192x192 512x512",
-      "type": "image/svg+xml",
+      "src": "./icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
       "purpose": "any maskable"
+    },
+    {
+      "src": "./icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "./icons/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
     }
   ]
 }

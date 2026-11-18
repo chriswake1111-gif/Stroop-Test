@@ -35,10 +35,13 @@ class StroopApp {
     this.records = [];
     this.score = 0;
     this.isPlaying = false;
+    this.isCountingDown = false;
+    this.countdownIntervalId = null;
     this.playStartTime = null;
 
     this.initDOM();
     this.applyTheme(this.currentTheme);
+    this.setMode(this.currentMode);
     this.renderButtons();
     this.updateWarmupBadge();
     this.updateStreakBadge();
@@ -49,7 +52,7 @@ class StroopApp {
     // Mode Buttons
     document.querySelectorAll('.mode-btn').forEach(btn => {
       btn.addEventListener('click', (e) => {
-        if (this.isPlaying) return;
+        if (this.isPlaying || this.isCountingDown) return;
         const mode = e.target.getAttribute('data-mode');
         this.setMode(mode);
       });
@@ -57,7 +60,7 @@ class StroopApp {
 
     // Settings Button
     document.getElementById('btn-open-settings')?.addEventListener('click', () => {
-      if (this.isPlaying) return;
+      if (this.isPlaying || this.isCountingDown) return;
       this.modalManager.showSettingsModal(this.storage.settings, (newSettings) => {
         this.storage.settings = StorageService.saveSettings(newSettings);
         this.audio.setEnabled(newSettings.sound);
@@ -118,6 +121,7 @@ class StroopApp {
     });
 
     const banner = document.getElementById('instruction-banner');
+    banner.style.color = '';
     if (mode === 'ink-color') {
       banner.textContent = '請點擊【文字的顏色】！';
     } else if (mode === 'text-meaning') {
@@ -170,16 +174,26 @@ class StroopApp {
   updateTimerTagDisplay() {
     const { ruleType = 'time', duration = 30, fixedCount = 20 } = this.storage.settings;
     const timerTag = document.getElementById('timer-tag');
-    if (!timerTag) return;
+    const startBtn = document.getElementById('btn-start-game');
 
-    if (ruleType === 'count') {
-      timerTag.innerHTML = `🎯 <span id="timer-display">${fixedCount}</span> 題限制`;
-    } else {
-      timerTag.innerHTML = `⏱️ <span id="timer-display">${duration}</span> 秒`;
+    if (timerTag) {
+      if (ruleType === 'count') {
+        timerTag.innerHTML = `🎯 <span id="timer-display">${fixedCount}</span> 題限制`;
+      } else {
+        timerTag.innerHTML = `⏱️ <span id="timer-display">${duration}</span> 秒`;
+      }
+    }
+
+    if (startBtn) {
+      startBtn.textContent = ruleType === 'count'
+        ? `開始 ${fixedCount} 題挑戰 🚀`
+        : `開始 ${duration} 秒暖身 🚀`;
     }
   }
 
   startGame() {
+    if (this.isPlaying || this.isCountingDown) return;
+
     this.score = 0;
     this.records = [];
     this.playStartTime = Date.now();
@@ -205,6 +219,12 @@ class StroopApp {
   }
 
   startCountdown(onComplete) {
+    if (this.countdownIntervalId) {
+      clearInterval(this.countdownIntervalId);
+      this.countdownIntervalId = null;
+    }
+
+    this.isCountingDown = true;
     const overlay = document.getElementById('countdown-overlay');
     const textEl = document.getElementById('countdown-text');
     overlay.style.display = 'flex';
@@ -214,7 +234,7 @@ class StroopApp {
     textEl.style.color = 'var(--primary)';
     this.audio.playCountdownBeep(false);
 
-    const intervalId = setInterval(() => {
+    this.countdownIntervalId = setInterval(() => {
       count--;
       if (count > 0) {
         textEl.textContent = count.toString();
@@ -225,7 +245,9 @@ class StroopApp {
         textEl.style.color = 'var(--success)';
         this.audio.playCountdownBeep(true);
       } else {
-        clearInterval(intervalId);
+        clearInterval(this.countdownIntervalId);
+        this.countdownIntervalId = null;
+        this.isCountingDown = false;
         overlay.style.display = 'none';
         if (onComplete) onComplete();
       }

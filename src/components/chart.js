@@ -27,8 +27,13 @@ export class TrendChart {
     // 清空背景
     ctx.clearRect(0, 0, width, height);
 
+    const styles = getComputedStyle(document.documentElement);
+    const textColor = styles.getPropertyValue('--text-color').trim() || '#334155';
+    const mutedColor = styles.getPropertyValue('--text-muted').trim() || '#94A3B8';
+    const gridColor = styles.getPropertyValue('--card-border').trim() || '#E2E8F0';
+
     if (!history || history.length === 0) {
-      ctx.fillStyle = 'var(--text-muted, #94A3B8)';
+      ctx.fillStyle = mutedColor;
       ctx.font = '14px sans-serif';
       ctx.textAlign = 'center';
       ctx.fillText('尚無測試紀錄，完成第一局解鎖趨勢圖！', width / 2, height / 2);
@@ -48,10 +53,10 @@ export class TrendChart {
     const minVal = Math.max(0, Math.min(...rts, ...deltas, 200) - 50);
 
     // 輔助線 (Y 軸)
-    ctx.strokeStyle = '#E2E8F0';
+    ctx.strokeStyle = gridColor;
     ctx.lineWidth = 1;
     ctx.font = '10px sans-serif';
-    ctx.fillStyle = '#64748B';
+    ctx.fillStyle = mutedColor;
     ctx.textAlign = 'right';
 
     const steps = 3;
@@ -93,13 +98,13 @@ export class TrendChart {
     // RT 圖例
     ctx.fillStyle = '#3B82F6';
     ctx.fillRect(padding.left, 8, 12, 12);
-    ctx.fillStyle = '#334155';
+    ctx.fillStyle = textColor;
     ctx.fillText('平均反應時間 (RT)', padding.left + 18, 18);
 
     // Delta 圖例
     ctx.fillStyle = '#8B5CF6';
     ctx.fillRect(padding.left + 140, 8, 12, 12);
-    ctx.fillStyle = '#334155';
+    ctx.fillStyle = textColor;
     ctx.fillText('Stroop 干擾值 (Delta)', padding.left + 158, 18);
   }
 

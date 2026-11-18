@@ -70,16 +70,19 @@ export class StatsCalculator {
   static evaluateBadge({ accuracy, avgRT, stroopDelta, total }) {
     if (total < 5) return { title: '暖身完成', icon: '🌱', desc: '成功踏出第一步！' };
 
-    if (accuracy >= 95 && avgRT > 0 && avgRT <= 450 && stroopDelta <= 50) {
+    if (accuracy < 50 || avgRT <= 0) {
+      return { title: '再接再厲', icon: '💪', desc: '放慢節奏確認色彩與規則，準確率會快速提升！' };
+    }
+    if (accuracy >= 95 && avgRT <= 450 && stroopDelta <= 50) {
       return { title: '抗干擾大師', icon: '👑', desc: '反應神速且幾乎不受色彩干擾！' };
     }
-    if (avgRT > 0 && avgRT <= 420) {
+    if (avgRT <= 420 && accuracy >= 80) {
       return { title: '超音速反應', icon: '⚡', desc: '平均反應時間小於 420ms！' };
     }
     if (accuracy >= 95) {
       return { title: '專注絕佳', icon: '🎯', desc: '正確率高達 95% 以上！' };
     }
-    if (stroopDelta <= 60 && stroopDelta >= 0) {
+    if (accuracy >= 80 && stroopDelta <= 60 && stroopDelta >= 0) {
       return { title: '冷靜大腦', icon: '🧘', desc: '展現極佳的前額葉抑制能力！' };
     }
 
