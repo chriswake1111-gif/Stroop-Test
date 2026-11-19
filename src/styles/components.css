@@ -3,12 +3,9 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 12px 16px;
-  background: var(--card-bg);
-  border: 1px solid var(--card-border);
-  border-radius: var(--radius);
-  box-shadow: var(--shadow);
-  margin-bottom: 16px;
+  padding: 8px 4px 12px;
+  border-bottom: 1px solid var(--card-border);
+  margin-bottom: 12px;
 }
 
 .top-bar .title-group {
@@ -17,24 +14,47 @@
   gap: 8px;
 }
 
+.brand-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--primary);
+}
+
 .top-bar h1 {
-  font-size: 1.15rem;
+  font-size: 1.1rem;
   font-weight: 700;
   color: var(--text-color);
 }
 
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.svg-icon {
+  display: inline-block;
+  vertical-align: middle;
+  flex-shrink: 0;
+}
+
 .icon-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 44px;
+  min-height: 44px;
   background: transparent;
   border: none;
-  font-size: 1.25rem;
+  color: var(--text-color);
   cursor: pointer;
-  padding: 6px;
-  border-radius: 8px;
+  border-radius: 10px;
   transition: background-color 0.2s ease;
 }
 
 .icon-btn:hover {
-  background: rgba(0, 0, 0, 0.05);
+  background: rgba(128, 128, 128, 0.12);
 }
 
 /* Control Pills & Modes */
@@ -44,12 +64,13 @@
   border: 1px solid var(--card-border);
   border-radius: 12px;
   padding: 4px;
-  margin-bottom: 16px;
+  margin-bottom: 14px;
   gap: 4px;
 }
 
 .mode-btn {
   flex: 1;
+  min-height: 44px;
   border: none;
   background: transparent;
   padding: 8px 4px;
@@ -58,7 +79,7 @@
   color: var(--text-muted);
   border-radius: 8px;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: background-color 0.2s ease, color 0.2s ease;
   text-align: center;
 }
 
@@ -68,79 +89,99 @@
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
 }
 
-/* Game Card Container */
+/* Main Stage (flat container to prevent cards-inside-cards) */
 .game-container {
   flex: 1;
   display: flex;
   flex-direction: column;
-  background: var(--card-bg);
-  border: 1px solid var(--card-border);
-  border-radius: var(--radius);
-  box-shadow: var(--shadow);
-  padding: 20px 16px;
-  gap: 16px;
+  gap: 14px;
 }
 
 .game-status-bar {
   display: flex;
+  flex-wrap: wrap;
   justify-content: space-between;
   align-items: center;
+  gap: 8px;
   font-weight: 600;
-  font-size: 0.95rem;
+  font-size: 0.85rem;
+  font-variant-numeric: tabular-nums;
   color: var(--text-muted);
+}
+
+.streak-tag,
+.warmup-tag,
+.timer-tag,
+.score-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.warmup-tag {
+  background: rgba(128, 128, 128, 0.08);
+  color: var(--text-color);
 }
 
 .timer-tag {
   background: rgba(239, 68, 68, 0.1);
   color: var(--danger);
-  padding: 4px 10px;
-  border-radius: 20px;
-  font-weight: 700;
 }
 
 .score-tag {
   background: rgba(16, 185, 129, 0.1);
   color: var(--success);
-  padding: 4px 10px;
-  border-radius: 20px;
-  font-weight: 700;
 }
 
 /* Instruction Prompt */
 .instruction-banner {
   text-align: center;
-  font-size: 1.1rem;
+  font-size: 1.05rem;
   font-weight: 700;
   color: var(--accent);
   background: rgba(59, 130, 246, 0.08);
-  padding: 8px;
-  border-radius: 10px;
-  min-height: 40px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  min-height: 44px;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-/* Stroop Word Card */
+/* Stroop Word Card (Single Visual Focus) */
 .word-display-card {
   flex: 1;
-  min-height: 160px;
+  min-height: 170px;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: var(--bg-color);
-  border: 2px dashed var(--card-border);
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  box-shadow: var(--shadow);
   border-radius: var(--radius);
-  margin: 8px 0;
-  transition: transform 0.15 ease, border-color 0.2s ease;
+  padding: 16px;
+  transition: transform 0.15s ease, border-color 0.2s ease;
+}
+
+.start-title {
+  font-size: 1.25rem;
+  color: var(--text-color);
+}
+
+.start-subtitle {
+  font-size: 0.9rem;
+  color: var(--text-muted);
 }
 
 .stroop-word {
-  font-size: 3.5rem;
+  font-size: 3.75rem;
   font-weight: 900;
   letter-spacing: 2px;
   line-height: 1;
-  text-shadow: 0 4px 10px rgba(0,0,0,0.05);
 }
 
 /* Countdown Overlay */
@@ -155,6 +196,7 @@
 .countdown-num {
   font-size: 5rem;
   font-weight: 900;
+  font-variant-numeric: tabular-nums;
   color: var(--primary);
   animation: countdownPulse 0.85s cubic-bezier(0.175, 0.885, 0.32, 1.275) infinite;
 }
@@ -182,23 +224,27 @@
 }
 
 .color-choice-btn {
-  min-height: 64px;
+  min-height: 60px;
   border: none;
   border-radius: 12px;
-  font-size: 1.25rem;
+  font-size: 1.2rem;
   font-weight: 700;
   color: #FFFFFF;
   cursor: pointer;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.12);
-  transition: transform 0.1s ease, filter 0.2s ease;
+  transition: transform 0.15s ease, filter 0.15s ease;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
+.color-choice-btn:last-child:nth-child(odd) {
+  grid-column: span 2;
+}
+
 .color-choice-btn:active {
-  transform: scale(0.95);
-  filter: brightness(0.9);
+  transform: scale(0.97);
+  filter: brightness(0.92);
 }
 
 /* Start Button Overlay */
@@ -316,9 +362,19 @@
   text-transform: uppercase;
 }
 
+.btn-sm {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 12px;
+  min-height: 44px;
+  font-size: 0.85rem;
+}
+
 .stat-value {
   font-size: 1.6rem;
   font-weight: 800;
+  font-variant-numeric: tabular-nums;
   margin: 4px 0;
 }
 
@@ -437,18 +493,60 @@
   transform: translateX(20px);
 }
 
+/* Modal SVG Badge & Notes */
+.modal-header .badge-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--primary);
+  margin: 0 auto 8px;
+}
+
+.stats-caption {
+  margin-top: 12px;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  text-align: center;
+}
+
+.disclaimer-note {
+  margin-top: 8px;
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  text-align: center;
+}
+
+.setting-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
 /* Animations */
 .animate-pop {
-  animation: popIn 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  animation: popIn 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
 @keyframes popIn {
   from {
     opacity: 0;
-    transform: scale(0.9);
+    transform: scale(0.95);
   }
   to {
     opacity: 1;
     transform: scale(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-pop,
+  .countdown-num {
+    animation: none;
+  }
+  .color-choice-btn,
+  .mode-btn,
+  .icon-btn,
+  .word-display-card {
+    transition: none;
   }
 }

@@ -68,4 +68,5 @@ body {
   display: flex;
   flex-direction: column;
   padding: 16px;
+  padding-bottom: max(16px, env(safe-area-inset-bottom));
 }

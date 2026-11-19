@@ -11,6 +11,7 @@ import { AudioService } from './services/audio.js';
 import { HapticsService } from './services/haptics.js';
 import { TrendChart } from './components/chart.js';
 import { ModalManager } from './components/modal.js';
+import { renderIcon } from './components/icons.js';
 
 class StroopApp {
   constructor() {
@@ -123,11 +124,11 @@ class StroopApp {
     const banner = document.getElementById('instruction-banner');
     banner.style.color = '';
     if (mode === 'ink-color') {
-      banner.textContent = '請點擊【文字的顏色】！';
+      banner.textContent = '請點擊【文字的顏色】';
     } else if (mode === 'text-meaning') {
-      banner.textContent = '請點擊【文字的意思】！';
+      banner.textContent = '請點擊【文字的意思】';
     } else {
-      banner.textContent = '⚡ 雙重切換：依據頂部指令隨機切換！';
+      banner.textContent = '雙重切換：依上方提示選擇目標';
     }
   }
 
@@ -144,7 +145,7 @@ class StroopApp {
     COLOR_PALETTE.forEach(c => {
       const btn = document.createElement('button');
       btn.className = 'color-choice-btn';
-      btn.style.backgroundColor = c.hex;
+      btn.style.backgroundColor = c.btnHex || c.hex;
       btn.textContent = c.name;
       btn.setAttribute('data-color-id', c.id);
 
@@ -178,16 +179,16 @@ class StroopApp {
 
     if (timerTag) {
       if (ruleType === 'count') {
-        timerTag.innerHTML = `🎯 <span id="timer-display">${fixedCount}</span> 題限制`;
+        timerTag.innerHTML = `${renderIcon('target', 14)} <span id="timer-display">${fixedCount}</span> 題`;
       } else {
-        timerTag.innerHTML = `⏱️ <span id="timer-display">${duration}</span> 秒`;
+        timerTag.innerHTML = `${renderIcon('timer', 14)} <span id="timer-display">${duration}</span> 秒`;
       }
     }
 
     if (startBtn) {
       startBtn.textContent = ruleType === 'count'
-        ? `開始 ${fixedCount} 題挑戰 🚀`
-        : `開始 ${duration} 秒暖身 🚀`;
+        ? `開始 ${fixedCount} 題挑戰`
+        : `開始 ${duration} 秒暖身`;
     }
   }
 
@@ -264,10 +265,10 @@ class StroopApp {
     const banner = document.getElementById('instruction-banner');
     if (this.currentMode === 'dual-switch') {
       if (this.currentQuestion.targetRule === 'ink-color') {
-        banner.textContent = '👉 看【文字顏色】！';
+        banner.textContent = '請選【文字顏色】';
         banner.style.color = 'var(--primary)';
       } else {
-        banner.textContent = '👉 看【文字意思】！';
+        banner.textContent = '請選【文字意思】';
         banner.style.color = 'var(--accent)';
       }
     }

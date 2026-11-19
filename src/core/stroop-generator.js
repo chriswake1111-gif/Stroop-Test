@@ -4,11 +4,11 @@
  */
 
 export const COLOR_PALETTE = [
-  { id: 'red', name: '紅', hex: '#EF4444' },
-  { id: 'blue', name: '藍', hex: '#3B82F6' },
-  { id: 'green', name: '綠', hex: '#10B981' },
-  { id: 'yellow', name: '黃', hex: '#D97706' },
-  { id: 'purple', name: '紫', hex: '#8B5CF6' }
+  { id: 'red', name: '紅', hex: '#EF4444', btnHex: '#B91C1C' },
+  { id: 'blue', name: '藍', hex: '#3B82F6', btnHex: '#1D4ED8' },
+  { id: 'green', name: '綠', hex: '#10B981', btnHex: '#047857' },
+  { id: 'yellow', name: '黃', hex: '#D97706', btnHex: '#B45309' },
+  { id: 'purple', name: '紫', hex: '#8B5CF6', btnHex: '#6D28D9' }
 ];
 
 export class StroopGenerator {

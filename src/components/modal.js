@@ -2,6 +2,7 @@
  * Modal Manager Component
  * 處理結算頁面、暖身完成提示與疲勞護眼提醒。
  */
+import { renderIcon } from './icons.js';
 
 export class ModalManager {
   constructor(containerEl) {
@@ -10,27 +11,28 @@ export class ModalManager {
 
   showSettlementModal(stats, onRestart) {
     const { total, correctCount, accuracy, avgRT, congruentAvgRT, incongruentAvgRT, stroopDelta, badge } = stats;
+    const badgeIconHtml = renderIcon(badge?.iconName || 'award', 38);
 
     const html = `
       <div class="modal-overlay active">
-        <div class="modal-card animate-pop">
+        <div class="modal-card animate-pop" role="dialog" aria-modal="true">
           <div class="modal-header">
-            <span class="badge-icon">${badge ? badge.icon : '🎉'}</span>
+            <span class="badge-icon">${badgeIconHtml}</span>
             <h2>挑戰結算</h2>
-            <p class="badge-title">${badge ? badge.title : '表現優異'}</p>
+            <p class="badge-title">${badge ? badge.title : '表現穩定'}</p>
           </div>
 
           <div class="modal-body">
             <div class="stats-grid">
               <div class="stat-box highlight">
-                <span class="stat-label">Stroop 干擾值</span>
+                <span class="stat-label">Stroop 干擾差值</span>
                 <span class="stat-value ${stroopDelta <= 60 ? 'good' : 'warning'}">${stroopDelta} <small>ms</small></span>
-                <span class="stat-sub">越低抗干擾越強</span>
+                <span class="stat-sub">越低代表越不受干擾</span>
               </div>
               <div class="stat-box">
                 <span class="stat-label">平均反應時間</span>
                 <span class="stat-value">${avgRT} <small>ms</small></span>
-                <span class="stat-sub">目標 < 450ms</span>
+                <span class="stat-sub">參考目標 &lt; 450ms</span>
               </div>
               <div class="stat-box">
                 <span class="stat-label">正確率</span>
@@ -45,12 +47,13 @@ export class ModalManager {
             </div>
 
             <div class="badge-desc-box">
-              <p>💡 <strong>OT 臨床解析：</strong> ${badge ? badge.desc : '繼續鍛鍊大腦前額葉！'}</p>
+              <p><strong>專注小觀察：</strong> ${badge ? badge.desc : '持續維持專注練習節奏！'}</p>
             </div>
+            <p class="disclaimer-note">僅供日常專注練習參考，非醫療或臨床診斷。</p>
           </div>
 
           <div class="modal-footer">
-            <button id="btn-modal-restart" class="btn btn-primary btn-block">再挑戰一局 🚀</button>
+            <button id="btn-modal-restart" class="btn btn-primary btn-block">再挑戰一局</button>
           </div>
         </div>
       </div>
@@ -64,13 +67,13 @@ export class ModalManager {
   }
 
   showSettingsModal(settings, onSave) {
-    const { ruleType = 'time', duration = 30, fixedCount = 20, sound = true, vibrate = true } = settings;
+    const { ruleType = 'time', duration = 30, sound = true, vibrate = true } = settings;
 
     const html = `
       <div class="modal-overlay active">
-        <div class="modal-card animate-pop">
+        <div class="modal-card animate-pop" role="dialog" aria-modal="true">
           <div class="modal-header">
-            <span class="badge-icon">⚙️</span>
+            <span class="badge-icon">${renderIcon('settings', 34)}</span>
             <h2>遊戲與偏好設定</h2>
           </div>
 
@@ -79,8 +82,8 @@ export class ModalManager {
             <div class="setting-group">
               <label class="setting-label">回合計算模式</label>
               <div class="pill-group">
-                <button class="pill-btn ${ruleType === 'time' ? 'active' : ''}" data-rule="time">⏱️ 時間倒數</button>
-                <button class="pill-btn ${ruleType === 'count' ? 'active' : ''}" data-rule="count">🎯 固定 20 題</button>
+                <button class="pill-btn ${ruleType === 'time' ? 'active' : ''}" data-rule="time">時間倒數</button>
+                <button class="pill-btn ${ruleType === 'count' ? 'active' : ''}" data-rule="count">固定 20 題</button>
               </div>
             </div>
 
@@ -96,18 +99,18 @@ export class ModalManager {
 
             <!-- 音效與震動開關 -->
             <div class="setting-group toggle-row">
-              <span class="setting-label">🔊 Web Audio 提示音</span>
+              <label for="setting-sound" class="setting-label">${renderIcon('volume', 16)} 提示音效</label>
               <input type="checkbox" id="setting-sound" class="toggle-checkbox" ${sound ? 'checked' : ''}>
             </div>
 
             <div class="setting-group toggle-row">
-              <span class="setting-label">📳 微震動觸控反饋</span>
+              <label for="setting-vibrate" class="setting-label">${renderIcon('vibrate', 16)} 微震動觸控反饋</label>
               <input type="checkbox" id="setting-vibrate" class="toggle-checkbox" ${vibrate ? 'checked' : ''}>
             </div>
           </div>
 
           <div class="modal-footer">
-            <button id="btn-save-settings" class="btn btn-primary btn-block">儲存並返回 💾</button>
+            <button id="btn-save-settings" class="btn btn-primary btn-block">儲存並返回</button>
           </div>
         </div>
       </div>
@@ -158,21 +161,21 @@ export class ModalManager {
   showWarmupNotice(count, onContinue) {
     const html = `
       <div class="modal-overlay active">
-        <div class="modal-card animate-pop">
+        <div class="modal-card animate-pop" role="dialog" aria-modal="true">
           <div class="modal-header">
-            <span class="badge-icon">🧠</span>
-            <h2>大腦暖身完成！</h2>
-            <p class="badge-title">今日已完成 ${count} 回合暖身</p>
+            <span class="badge-icon">${renderIcon('brain', 36)}</span>
+            <h2>今日暖身完成</h2>
+            <p class="badge-title">已完成 ${count} 回合練習</p>
           </div>
 
           <div class="modal-body">
-            <p style="text-align: center; color: var(--text-color); font-size: 1.05rem; line-height: 1.6;">
-              太棒了！您的大腦前額葉抑制控制網絡已經開機，準備好迎接高效學習或工作！
+            <p style="text-align: center; color: var(--text-color); font-size: 1rem; line-height: 1.6;">
+              太棒了！專注狀態已順利開機，準備好迎接接下來的學習或工作。
             </p>
           </div>
 
           <div class="modal-footer">
-            <button id="btn-modal-continue" class="btn btn-primary btn-block">繼續挑戰 🌟</button>
+            <button id="btn-modal-continue" class="btn btn-primary btn-block">查看本次結算</button>
           </div>
         </div>
       </div>
@@ -188,21 +191,21 @@ export class ModalManager {
   showRestNotice(onDismiss) {
     const html = `
       <div class="modal-overlay active">
-        <div class="modal-card animate-pop">
+        <div class="modal-card animate-pop" role="dialog" aria-modal="true">
           <div class="modal-header">
-            <span class="badge-icon">🍵</span>
-            <h2>護眼疲勞提醒</h2>
-            <p class="badge-title">您已連續遊玩超過 5 分鐘</p>
+            <span class="badge-icon">${renderIcon('coffee', 36)}</span>
+            <h2>護眼休息提醒</h2>
+            <p class="badge-title">您已連續練習超過 5 分鐘</p>
           </div>
 
           <div class="modal-body">
-            <p style="text-align: center; color: var(--text-color); font-size: 1.05rem; line-height: 1.6;">
-              建議眨眨眼、望向 20 呎外的遠處休息 20 秒，讓眼部肌肉放鬆，保護靈魂之窗！
+            <p style="text-align: center; color: var(--text-color); font-size: 1rem; line-height: 1.6;">
+              建議眨眨眼、望向遠處休息 20 秒，讓眼部肌肉放鬆再繼續。
             </p>
           </div>
 
           <div class="modal-footer">
-            <button id="btn-modal-rest-dismiss" class="btn btn-primary btn-block">好的，休息一下 🌿</button>
+            <button id="btn-modal-rest-dismiss" class="btn btn-primary btn-block">好的，休息一下</button>
           </div>
         </div>
       </div>

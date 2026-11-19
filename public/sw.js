@@ -3,7 +3,7 @@
  * 支援生產環境打包資產自動快取與全離線遊玩
  */
 
-const CACHE_NAME = 'stroop-pwa-v2';
+const CACHE_NAME = 'stroop-pwa-v3';
 const CORE_SHELL = [
   './',
   './index.html',
@@ -36,6 +36,11 @@ self.addEventListener('fetch', (event) => {
 
   const url = new URL(event.request.url);
   if (url.origin !== self.location.origin) return;
+
+  // 本地開發伺服器 (Vite HMR / /src/) 不走離線快取，避免預覽與開發時卡住舊版
+  if (url.hostname === 'localhost' || url.hostname === '127.0.0.1' || url.pathname.startsWith('/src/') || url.pathname.startsWith('/@')) {
+    return;
+  }
 
   // 導航請求：Network-First，離線時退回快取 index.html
   if (event.request.mode === 'navigate') {

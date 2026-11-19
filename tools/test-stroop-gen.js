@@ -75,7 +75,7 @@ console.log(`   - 平均 RT: ${stats.avgRT} ms`);
 console.log(`   - 一致題平均 RT: ${stats.congruentAvgRT} ms`);
 console.log(`   - 衝突題平均 RT: ${stats.incongruentAvgRT} ms`);
 console.log(`   - Stroop Delta 干擾值: ${stats.stroopDelta} ms`);
-console.log(`   - 解鎖獎牌: ${stats.badge.icon} ${stats.badge.title} (${stats.badge.desc})`);
+console.log(`   - 解鎖獎牌: [${stats.badge.iconName}] ${stats.badge.title} (${stats.badge.desc})`);
 
 if (stats.stroopDelta > 0 && stats.accuracy > 0) {
   console.log('✅ PASS: StatsCalculator 計算正確！\n');

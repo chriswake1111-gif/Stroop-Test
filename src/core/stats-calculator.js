@@ -68,24 +68,24 @@ export class StatsCalculator {
    * 依據表現頒發成就獎牌
    */
   static evaluateBadge({ accuracy, avgRT, stroopDelta, total }) {
-    if (total < 5) return { title: '暖身完成', icon: '🌱', desc: '成功踏出第一步！' };
+    if (total < 5) return { title: '暖身完成', iconName: 'sparkles', desc: '成功踏出第一步！' };
 
     if (accuracy < 50 || avgRT <= 0) {
-      return { title: '再接再厲', icon: '💪', desc: '放慢節奏確認色彩與規則，準確率會快速提升！' };
+      return { title: '再接再厲', iconName: 'award', desc: '放慢節奏確認色彩與規則，準確率會快速提升！' };
     }
     if (accuracy >= 95 && avgRT <= 450 && stroopDelta <= 50) {
-      return { title: '抗干擾大師', icon: '👑', desc: '反應神速且幾乎不受色彩干擾！' };
+      return { title: '抗干擾大師', iconName: 'crown', desc: '反應敏捷且幾乎不受文字色彩干擾！' };
     }
     if (avgRT <= 420 && accuracy >= 80) {
-      return { title: '超音速反應', icon: '⚡', desc: '平均反應時間小於 420ms！' };
+      return { title: '超音速反應', iconName: 'zap', desc: '平均反應時間小於 420ms！' };
     }
     if (accuracy >= 95) {
-      return { title: '專注絕佳', icon: '🎯', desc: '正確率高達 95% 以上！' };
+      return { title: '專注絕佳', iconName: 'target', desc: '正確率高達 95% 以上！' };
     }
     if (accuracy >= 80 && stroopDelta <= 60 && stroopDelta >= 0) {
-      return { title: '冷靜大腦', icon: '🧘', desc: '展現極佳的前額葉抑制能力！' };
+      return { title: '冷靜專注', iconName: 'award', desc: '展現穩定的專注力與抗干擾節奏！' };
     }
 
-    return { title: '持續進步中', icon: '🌟', desc: '每天鍛鍊，大腦越用越靈活！' };
+    return { title: '持續進步中', iconName: 'sparkles', desc: '每天短時練習，專注狀態更穩定！' };
   }
 }
